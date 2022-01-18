@@ -85,6 +85,7 @@
 
 <script>
 import { defineComponent, provide, ref } from 'vue';
+import { API_Domain } from 'src/env';
 import TTable from 'src/components/TTable.vue';
 
 const firstCol = {
@@ -177,7 +178,7 @@ export default defineComponent({
         if (this.negativeOnly && this.negativeOnly.value)
           filter.negative_stock_only = this.negativeOnly.value;
 
-        const url = new URL('http://62.133.189.86:8080/demo/balances');
+        const url = new URL('/demo/balances', API_Domain);
         url.search = new URLSearchParams(filter).toString();
 
         const res = await fetch(url, {
