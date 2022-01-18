@@ -85,7 +85,7 @@
 
 <script>
 import { defineComponent, provide, ref } from 'vue';
-import { API_Domain } from 'src/env';
+import { API_Domain, TableData_Path } from 'src/env';
 import TTable from 'src/components/TTable.vue';
 
 const firstCol = {
@@ -150,7 +150,6 @@ export default defineComponent({
     };
 
     const invisibleDaysUpdate = (data) => {
-      console.log(data);
       invisibleDays.value = data;
     };
 
@@ -178,7 +177,10 @@ export default defineComponent({
         if (this.negativeOnly && this.negativeOnly.value)
           filter.negative_stock_only = this.negativeOnly.value;
 
-        const url = new URL('/demo/balances', API_Domain);
+        const url = new URL(
+          TableData_Path,
+          API_Domain || window.location.origin
+        );
         url.search = new URLSearchParams(filter).toString();
 
         const res = await fetch(url, {
