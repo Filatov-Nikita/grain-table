@@ -320,6 +320,10 @@ td {
   transition: background 0.3s;
 }
 
+.td-name {
+  background-color: white;
+}
+
 .th-day--hidden {
   width: 150px;
 }
@@ -338,42 +342,35 @@ td {
   background: rgb(255, 140, 0);
 }
 
-td:first-child {
-  background-color: white;
+.left-b {
+  border-left: 2px solid black;
 }
 
-tr th {
+/* колонки дней, колонка "продукция", название столбцов (ниже дат), колонка наименований продукции, колонка группы */
+.th-day, .th-1, .th-2, .td-name, .group {
   position: sticky;
-  z-index: 2;
-  background: #fff;
 }
 
+.th-day, .th-1 {
+  top: 0
+}
+
+/* top фиксированное значение зависит от высоты первой строки */
 .th-2 {
   top: 48px;
-  z-index: 2;
-}
-
-thead tr:first-child th {
-  top: 0;
-  z-index: 1;
-}
-
-tr:first-child th:first-child {
-  z-index: 3;
-}
-
-td:first-child {
-  z-index: 1;
 }
 
 .td-name,
 .group,
 .th-1 {
-  position: sticky;
   left: 0;
 }
 
-.left-b {
-  border-left: 2px solid black;
+.th-day, .td-name, .group, .th-2 {
+  z-index: 1;
+}
+
+.th-1 {
+  z-index: 3;
 }
 </style>
