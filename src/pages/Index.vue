@@ -111,7 +111,7 @@ const columns = [
   },
   {
     label: 'Ост. вечер',
-    field: (row) => row.balance_morning,
+    field: (row) => row.balance_evening,
   },
   {
     label: 'Произв. ночь (план)',
