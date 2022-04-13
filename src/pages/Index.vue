@@ -1,71 +1,82 @@
 <template>
-  <q-page class="q-py-lg q-px-md">
-    <section class="q-mb-lg">
+  <q-page class="q-py-sm q-px-md">
+    <section class="q-mb-sm">
       <q-card class="my-card">
-        <q-card-section class="bg-primary text-white">
-          <div class="text-h6">Фильтр</div>
-        </q-card-section>
-
-        <q-separator />
-
-        <q-card-section>
-          <div class="row q-col-gutter-md q-mb-md">
-            <div class="col">
-              <q-input
-                v-model="period1"
-                filled
-                type="date"
-                hint="Начало периода"
-                :min="periodMin"
-                :max="periodMax"
-              />
-            </div>
-            <div class="col">
-              <q-input
-                v-model="period2"
-                filled
-                type="date"
-                hint="Конец периода"
-                :min="periodMin"
-                :max="periodMax"
-              />
-            </div>
-            <div class="col">
-              <q-select
-                filled
-                v-model="group"
-                :options="groupOptions"
-                label="Группа"
-              />
-            </div>
-            <div class="col">
-              <q-select
-                filled
-                v-model="tool"
-                :options="toolOptions"
-                label="Тип инструмента"
-              />
-            </div>
-
-            <div class="col">
-              <q-select
-                filled
-                v-model="negativeOnly"
-                :options="negativeOnlyOptions"
-                label="Остаток"
-              />
-            </div>
-          </div>
-          <div class="flex q-gutter-md">
-            <q-btn label="Применить" color="secondary" @click="fetchData()" />
+        <q-card-section @click="showFilter = !showFilter" class="bg-primary text-white q-py-sm" style="cursor:pointer">
+          <div class="flex justify-between items-center">
+            <div class="text-md text-weight-bold">Фильтр</div>
+            <q-space/>
             <q-btn
-              v-if="showResetBtn"
-              label="Сбросить"
-              color="negative"
-              @click="reset"
+              round
+              size="sm"
+              class="text-black"
+              :icon="showFilter ? 'expand_less' : 'expand_more'"
+              color="white"
             />
           </div>
         </q-card-section>
+
+        <q-separator />
+        <q-slide-transition>
+          <q-card-section v-if="showFilter">
+            <div class="row q-col-gutter-md q-mb-md">
+              <div class="col">
+                <q-input
+                  v-model="period1"
+                  filled
+                  type="date"
+                  hint="Начало периода"
+                  :min="periodMin"
+                  :max="periodMax"
+                />
+              </div>
+              <div class="col">
+                <q-input
+                  v-model="period2"
+                  filled
+                  type="date"
+                  hint="Конец периода"
+                  :min="periodMin"
+                  :max="periodMax"
+                />
+              </div>
+              <div class="col">
+                <q-select
+                  filled
+                  v-model="group"
+                  :options="groupOptions"
+                  label="Группа"
+                />
+              </div>
+              <div class="col">
+                <q-select
+                  filled
+                  v-model="tool"
+                  :options="toolOptions"
+                  label="Тип инструмента"
+                />
+              </div>
+
+              <div class="col">
+                <q-select
+                  filled
+                  v-model="negativeOnly"
+                  :options="negativeOnlyOptions"
+                  label="Остаток"
+                />
+              </div>
+            </div>
+            <div class="flex q-gutter-md">
+              <q-btn label="Применить" color="secondary" @click="fetchData()" />
+              <q-btn
+                v-if="showResetBtn"
+                label="Сбросить"
+                color="negative"
+                @click="reset"
+              />
+            </div>
+          </q-card-section>
+        </q-slide-transition>
       </q-card>
     </section>
 
@@ -98,8 +109,16 @@ const columns = [
     field: (row) => row.balance_morning,
   },
   {
-    label: 'Отгрузка',
-    field: (row) => row.shipment,
+    label: 'Отгрузка (план)',
+    field: (row) => row.shipment_plan,
+  },
+  {
+    label: 'Отгрузка (факт)',
+    field: (row) => row.shipment_fact,
+  },
+  {
+    label: 'Актуализация',
+    field: (row) => row.transfer,
   },
   {
     label: 'Произв. день (план)',
@@ -160,6 +179,7 @@ export default defineComponent({
     return {
       columns: cols,
       invisibleDaysUpdate,
+      showFilter: ref(false)
     };
   },
   created() {
