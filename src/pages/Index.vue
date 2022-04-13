@@ -6,13 +6,9 @@
           <div class="flex justify-between items-center">
             <div class="text-md text-weight-bold">Фильтр</div>
             <q-space/>
-            <q-btn
-              round
-              size="sm"
-              class="text-black"
-              :icon="showFilter ? 'expand_less' : 'expand_more'"
-              color="white"
-            />
+            <button v-ripple class="filterBtn">
+              <q-icon color="dark" :name="showFilter ? 'expand_less' : 'expand_more'" />
+            </button>
           </div>
         </q-card-section>
 
@@ -96,7 +92,7 @@
 
 <script>
 import { defineComponent, provide, ref } from 'vue';
-import { API_Domain, TableData_Path } from 'src/env';
+import { API_Domain, TableData_Path, Prod_Path } from 'src/env';
 import TTable from 'src/components/TTable.vue';
 
 const firstCol = {
@@ -197,9 +193,10 @@ export default defineComponent({
         if (this.negativeOnly && this.negativeOnly.value)
           filter.negative_stock_only = this.negativeOnly.value;
 
+        const isProd = process.env.NODE_ENV === 'production';
         const url = new URL(
-          TableData_Path,
-          API_Domain || window.location.origin
+          isProd ? Prod_Path : TableData_Path,
+          isProd ? window.location.origin : API_Domain
         );
         url.search = new URLSearchParams(filter).toString();
 
@@ -304,6 +301,19 @@ export default defineComponent({
 });
 </script>
 <style>
+.filterBtn {
+  position: relative;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  cursor: pointer;
+}
+
 table {
   border-spacing: 0;
   width: 100%;
@@ -332,7 +342,7 @@ td {
 }
 
 .th-day {
-  width: 800px;
+  width: 1000px;
   font-size: 14px;
   background: #9c27b0;
   color: white;
@@ -353,7 +363,7 @@ td {
 }
 
 .t-container {
-  height: 410px;
+  height: calc(100vh - 145px);
   overflow: scroll;
 }
 

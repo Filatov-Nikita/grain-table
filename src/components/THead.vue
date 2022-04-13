@@ -10,7 +10,7 @@
         }"
         v-for="(day, index) in days"
         :key="day"
-        :colspan="invisibleDays[day] === true ? 1 : 7"
+        :colspan="invisibleDays[day] === true ? 1 : 9"
         @click="onCollapse(day)"
       >
         {{ $filters.displayDate(day) }}
