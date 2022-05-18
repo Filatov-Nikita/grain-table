@@ -113,8 +113,12 @@ const columns = [
     field: (row) => row.shipment_fact,
   },
   {
-    label: 'Актуализация',
-    field: (row) => row.transfer,
+    label: 'Актуализация (план)',
+    field: (row) => row.a11n_plan,
+  },
+  {
+    label: 'Актуализация (факт)',
+    field: (row) => row.a11n_fact,
   },
   {
     label: 'Произв. день (план)',
