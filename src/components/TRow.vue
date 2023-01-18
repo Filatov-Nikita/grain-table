@@ -19,6 +19,14 @@
         />
       </template>
     </template>
+    <TCol
+      :key="row.end_of_month.day"
+      :style="{ background: isEven && !selected ? groupColor : '#ffffff' }"
+      :class="{ selected }"
+      class="td-last"
+        :value="row.end_of_month.balance_morning"
+        @click="onSelect"
+      />
   </tr>
 </template>
 
@@ -68,7 +76,7 @@ export default {
 
 <style scoped>
 .selected {
-  background: #91c7fc;
+  background: #91c7fc !important;
   /* color: white; */
   border-top: 2px solid black !important;
   border-bottom: 2px solid black !important;

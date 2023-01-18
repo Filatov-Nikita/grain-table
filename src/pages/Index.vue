@@ -216,9 +216,10 @@ export default defineComponent({
         this.period2 = data.filters.period_end;
 
         this.tableData = data;
-        this.days = data.period;
+        const lastDay = data.extrudate_groups?.[0]?.extrudates?.[0]?.end_of_month.day || ''
+        this.days = [ ...data.period, lastDay];
         this.invisibleDaysUpdate(
-          data.period.reduce((acc, per) => {
+          this.days.reduce((acc, per) => {
             acc[per] = true;
             return acc;
           }, {})
@@ -377,7 +378,7 @@ td {
 }
 
 /* колонки дней, колонка "продукция", название столбцов (ниже дат), колонка наименований продукции, колонка группы */
-.th-day, .th-1, .th-2, .td-name, .group {
+.th-day, .th-1, .th-2, .td-name, .group, .td-last {
   position: sticky;
 }
 
@@ -400,7 +401,25 @@ td {
   z-index: 1;
 }
 
+.td-last, .th-day-last, .th-2-last-day {
+  right: 0;
+}
+
 .th-1 {
   z-index: 3;
+}
+
+.th-day-last {
+  background: #5f2da4;
+}
+
+.th-2-last-day {
+  background: #0c27a1;
+}
+
+.td-last {
+  border-left-width: 3px;
+  border-right-width: 3px;
+  border-color: #0c27a1;
 }
 </style>

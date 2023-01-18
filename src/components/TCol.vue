@@ -1,6 +1,6 @@
 <template>
   <td :class="{ 'text-negative': isNegative }">
-    {{ value || '-' }}
+    {{ value ?? '-' }}
   </td>
 </template>
 
