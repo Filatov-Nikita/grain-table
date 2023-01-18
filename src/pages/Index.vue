@@ -401,7 +401,7 @@ td {
   left: 0;
 }
 
-.th-day, .td-name, .group, .th-2 {
+.th-day, .td-name, .group, .th-2, .td-last {
   z-index: 1;
 }
 
@@ -409,7 +409,7 @@ td {
   right: 0;
 }
 
-.th-1 {
+.th-1, .th-day-last, .th-2-last-day {
   z-index: 3;
 }
 
