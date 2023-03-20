@@ -92,7 +92,7 @@
 
 <script>
 import { defineComponent, provide, ref } from 'vue';
-import { API_Domain, TableData_Path, Prod_Path } from 'src/env';
+import { TableData_Path } from 'src/env';
 import TTable from 'src/components/TTable.vue';
 
 const firstCol = {
@@ -197,10 +197,10 @@ export default defineComponent({
         if (this.negativeOnly && this.negativeOnly.value)
           filter.negative_stock_only = this.negativeOnly.value;
 
-        const isProd = process.env.NODE_ENV === 'production';
+        // const isProd = process.env.NODE_ENV === 'production';
         const url = new URL(
-          isProd ? Prod_Path : TableData_Path,
-          isProd ? window.location.origin : API_Domain
+          TableData_Path,
+          window.location.origin
         );
         url.search = new URLSearchParams(filter).toString();
 
