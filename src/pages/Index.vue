@@ -344,6 +344,11 @@ td {
   width: 250px;
   background: #1976d2;
   color: white;
+  text-align: center !important;
+}
+
+.td-gen {
+  text-align: right !important;
 }
 
 .th-day {
@@ -353,6 +358,7 @@ td {
   color: white;
   cursor: pointer;
   transition: background 0.3s;
+  text-align: center !important;
 }
 
 .td-name {
@@ -392,6 +398,7 @@ td {
 
 /* top фиксированное значение зависит от высоты первой строки */
 .th-2 {
+  text-align: center !important;
   top: 48px;
 }
 

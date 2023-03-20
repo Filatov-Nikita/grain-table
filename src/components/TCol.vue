@@ -1,5 +1,5 @@
 <template>
-  <td :class="{ 'text-negative': isNegative }">
+  <td class="td-gen" :class="{ 'text-negative': isNegative }">
     {{ value ?? '-' }}
   </td>
 </template>
