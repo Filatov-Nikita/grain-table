@@ -61,6 +61,14 @@
                   label="Остаток"
                 />
               </div>
+              <div class="col">
+                <q-select
+                  filled
+                  v-model="shipmentFromLinesOnly"
+                  :options="shipmentFromLinesOnlyOptions"
+                  label="Отгрузка с линии"
+                />
+              </div>
             </div>
             <div class="flex q-gutter-md">
               <q-btn label="Применить" color="secondary" @click="fetchData()" />
@@ -154,6 +162,7 @@ export default defineComponent({
       group: null,
       tool: null,
       negativeOnly: null,
+      shipmentFromLinesOnly: null,
     };
   },
   setup() {
@@ -196,7 +205,8 @@ export default defineComponent({
         if (this.tool) filter.tool_type = this.tool.value;
         if (this.negativeOnly && this.negativeOnly.value)
           filter.negative_stock_only = this.negativeOnly.value;
-
+        if (this.shipmentFromLinesOnly && this.shipmentFromLinesOnly.value)
+          filter.shipment_from_lines_only = this.shipmentFromLinesOnly.value;
         // const isProd = process.env.NODE_ENV === 'production';
         const url = new URL(
           TableData_Path,
@@ -215,6 +225,7 @@ export default defineComponent({
           this.group = this.groupOptions[0] || null;
           this.tool = this.toolOptions[0] || null;
           this.negativeOnly = this.negativeOnlyOptions[0] || null;
+          this.shipmentFromLinesOnly = this.shipmentFromLinesOnlyOptions[0] || null;
         }
         this.period1 = data.filters.period_start;
         this.period2 = data.filters.period_end;
@@ -246,6 +257,7 @@ export default defineComponent({
       this.group = this.groupOptions[0] || null;
       this.tool = this.toolOptions[0] || null;
       this.negativeOnly = this.negativeOnlyOptions[0] || null;
+      this.shipmentFromLinesOnly = this.shipmentFromLinesOnlyOptions[0] || null;
       this.fetchData();
     },
     getOptions(key, cb) {
@@ -260,7 +272,8 @@ export default defineComponent({
         this.tool ||
         this.period1 ||
         this.period2 ||
-        (this.negativeOnly && this.negativeOnly.value);
+        (this.negativeOnly && this.negativeOnly.value) ||
+        (this.shipmentFromLinesOnly && this.shipmentFromLinesOnly.value);
 
       return res ? true : false;
     },
@@ -294,11 +307,23 @@ export default defineComponent({
         { label: 'Отрицательный', value: true },
       ];
     },
+    shipmentFromLinesOnlyOptions() {
+      return [
+        { label: 'Не важно', value: false },
+        { label: 'Да', value: true },
+      ];
+    },
   },
   watch: {
     negativeOnlyOptions: {
       handler(options) {
         this.negativeOnly = options[0] || null;
+      },
+      immediate: true,
+    },
+    shipmentFromLinesOnlyOptions: {
+      handler(options) {
+        this.shipmentFromLinesOnly = options[0] || null;
       },
       immediate: true,
     },
