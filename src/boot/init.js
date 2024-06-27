@@ -1,3 +1,5 @@
+import { serverDataKey, getServerData } from 'src/plugins/serverData/useServerData';
+
 function displayDate(date) {
   if (typeof date !== "string") return "-";
 
@@ -25,4 +27,8 @@ export default ({ app }) => {
   app.config.globalProperties.$filters = {
     displayDate,
   };
+
+  const serverData = getServerData();
+  app.config.globalProperties.$serverData = serverData;
+  app.provide(serverDataKey, serverData);
 };

@@ -3,7 +3,7 @@
     <THead v-bind="{ days, columns, firstCol }" />
     <tbody>
       <template
-        v-for="(group, index) in tableData.extrudate_groups"
+        v-for="group in tableData.extrudate_groups"
         :key="group.id"
       >
         <TGroup :group="group" :daysCol="days.length">

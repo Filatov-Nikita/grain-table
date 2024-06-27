@@ -8,7 +8,7 @@
           'th-day--hidden': invisibleDays[day] === true,
           'left-b': true,
         }"
-        v-for="(day, index) in daysWithoutLast"
+        v-for="(day, index) in daysList"
         :key="day"
         :colspan="invisibleDays[day] === true ? 1 : 10"
         @click="onCollapse(day)"
@@ -16,6 +16,7 @@
         {{ $filters.displayDate(day) }}
       </th>
       <th
+        v-if="$serverData.withLastCol"
         class="th-day th-day--hidden left-b th-day-last"
         :key="lastDay"
         :colspan="1"
@@ -24,7 +25,7 @@
       </th>
     </tr>
     <tr>
-      <template v-for="day in daysWithoutLast" :key="day">
+      <template v-for="day in daysList" :key="day">
         <template v-for="(col, index) in columns" :key="col.label">
           <th
             class="th-2"
@@ -35,7 +36,7 @@
           </th>
         </template>
       </template>
-      <th class="th-2 th-2-last-day">
+      <th class="th-2 th-2-last-day" v-if="$serverData.withLastCol">
         {{ columns[0].label }}
       </th>
     </tr>
@@ -43,6 +44,7 @@
 </template>
 
 <script>
+import useServerData from 'src/plugins/serverData/useServerData';
 import { inject, computed } from 'vue';
 
 export default {
@@ -63,9 +65,12 @@ export default {
   setup(props) {
     const onCollapse = inject('onCollapse');
     const invisibleDays = inject('invisibleDays');
+    const serverData = useServerData();
 
-    const daysWithoutLast = computed(() => {
-      return props.days.slice(0, -1);
+    const daysList = computed(() => {
+      const _days = [ ...props.days ];
+      if(serverData.withLastCol) return props.days.slice(0, -1);
+      return _days;
     });
 
     const dayLastIndex = computed(() => props.days.length - 1);
@@ -74,7 +79,7 @@ export default {
     return {
       onCollapse,
       invisibleDays,
-      daysWithoutLast,
+      daysList,
       dayLastIndex,
       lastDay
     };

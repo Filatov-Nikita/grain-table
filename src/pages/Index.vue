@@ -221,7 +221,10 @@ export default defineComponent({
 
         this.tableData = data;
         const lastDay = data.extrudate_groups?.[0]?.extrudates?.[0]?.end_of_month.day || ''
-        this.days = [ ...data.period, lastDay];
+        this.days = [ ...data.period ];
+        if(this.$serverData.withLastCol) {
+          this.days.push(lastDay);
+        }
         this.invisibleDaysUpdate(
           this.days.reduce((acc, per) => {
             acc[per] = true;
@@ -422,6 +425,7 @@ td {
 
 .th-day-last {
   background: #5f2da4;
+  cursor: default !important;
 }
 
 .th-2-last-day {

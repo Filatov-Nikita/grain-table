@@ -20,13 +20,14 @@
       </template>
     </template>
     <TCol
+      v-if="$serverData.withLastCol"
       :key="row.end_of_month.day"
       :style="{ background: isEven && !selected ? groupColor : '#ffffff' }"
       :class="{ selected }"
       class="td-last"
-        :value="row.end_of_month.balance_morning"
-        @click="onSelect"
-      />
+      :value="row.end_of_month.balance_morning"
+      @click="onSelect"
+    />
   </tr>
 </template>
 
